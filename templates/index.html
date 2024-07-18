@@ -1,0 +1,20 @@
+{% extends "layout.html" %}
+{% block body %}
+<div class="container text-center">
+  <article class="main row"></article>
+    <p class="border text-center">Currently, there is great interest in the digital preservation of Cultural Heritage. Thanks to the development of information and communication technologies, their adoption in fields such as Restoration and Conservation of Cultural Assets is helping to preserve heritage. In this sense, in the earliest phase of restoration and intervention projects, the generation of a damage map (also known as a pathology map) is crucial. This map allows us to assess the current state of conservation of an artwork in order to plan its subsequent intervention.
+    </p>
+    <p>
+      This application will be used for the detection of damages in easel paintings, where the user will input an image of a damaged painting and the damages will be detected.
+    </p>
+  </article>
+  <img src="{{ url_for('static', filename='./images/introduction.jpg')}}" width = "700" height ="400"/>
+  <div class="row">
+    <button type="button" class="btn btn-primary "><a href="{{ url_for('UploadImage') }}">Continue</a></button>
+  </div>
+</div>
+
+<style>
+ 
+</style>
+{% endblock %}

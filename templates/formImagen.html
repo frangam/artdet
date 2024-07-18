@@ -1,0 +1,48 @@
+{% extends "layout.html" %}
+{% block body %}
+<div class="container">
+    <div class="formulario">
+        <form action="{{ url_for('deteccion') }}" method="POST" enctype="multipart/form-data" class="border p-3 form">
+            <ul>
+            <li>
+                <input type="file" name="fichero" style="margin-top: 20px;"/> 
+            </li>
+            <br>
+            
+                <input type="submit" value="Continuar"/>   
+            </ul>
+        </form>
+    </div>
+</div>
+
+<style>
+  .container{
+    padding-top: 100px;
+  }
+
+  .form {
+    width: 100%;
+    height: 100%;
+    max-width: 600px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    border: 10px solid black;
+  }
+
+  .form input {
+    width: 90%;
+    height: 30px;
+    margin: 0.5rem;
+  }
+
+  .form button {
+    padding: 0.5em 1em;
+    border: none;
+    background: rgb(100, 200, 255);
+    cursor: pointer;
+  }
+</style>
+{% endblock %}

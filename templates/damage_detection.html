@@ -1,0 +1,18 @@
+{% extends "layout.html" %}
+{% block body %}
+<section class="jumbotron text-center">
+    <h2>Frame: {{name_file}}</h2>
+</section>
+
+<div class="container text-center">
+    <img src="{{ url_for('static', filename='./images/test.jpg')}}" width="400" height="auto"/>
+
+    <p>
+        <form action="{{ url_for('ShowDamage') }}" method="GET">
+            <input type="hidden" name="name" value="{{name_file}}" />
+            <input type="submit" class="btn btn-sm btn-primary" value="Show damages" />
+        </form>
+        <button type="button" class="btn btn-sm btn-primary"><a href="{{ url_for('UploadImage') }}">Go back</a></button>  
+    </p>
+</div>
+{% endblock %}

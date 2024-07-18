@@ -1,0 +1,37 @@
+{% extends "layout.html" %}
+{% block body %}
+<section class="jumbotron text-center">
+  <h2>Artwork: {{name_file}}</h2>
+</section>
+
+<div class="container">
+  <div class="main row">
+  <div class="col-md-5">
+    <h3>Original Image</h3>
+    <img src="{{ url_for('static', filename='./images/test.jpg')}}" width="400" height="auto"/>
+  </div>
+
+  <div class="col-md-5">
+    <h3>Detected Damages</h3>
+    <img src="{{ url_for('static', filename='./images/detection.jpg')}}" width="400" height="auto"/>
+    <form action="{{ url_for('DownloadImages') }}" method="GET">
+    <input type="submit" value="Download Image"/>
+    </form>
+  </div>
+
+  <div class="col-md-2">
+    <h3>Characteristics</h3>
+    <p>Characteristics regarding the detected damages</p>
+    <ul>
+    <li>Canvas area: {{tamaño}} pixels<sup>2</sup></li>
+    <li>Undamaged area: {{zona_no_dañada}} pixels<sup>2</sup></li>
+    <li>Damaged area: {{zona_dañada}} pixels<sup>2</sup></li>
+    <li>Damage percentage: {{porcentaje}}%</li>
+    </ul>
+  </div>
+
+  </div>
+  <a href="{{ url_for('UploadImage') }}">Upload a new image</a>
+</div>
+
+{% endblock %}
