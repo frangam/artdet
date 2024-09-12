@@ -1,0 +1,39 @@
+{% extends "layout.html" %}
+{% block body %}
+<div class="container text-center mt-5">
+    <!-- Botón de subida de imágenes en la parte superior -->
+    <h1 class="text-primary mb-4">Cultural Heritage Damage Detection</h1>
+
+    <form action="{{ url_for('detection') }}" method="POST" enctype="multipart/form-data" class="form border p-4 rounded shadow-sm">
+        <div class="mb-3">
+            <label for="file-upload" class="form-label">Upload an image of a damaged artwork</label>
+            <input type="file" class="form-control" name="fichero" id="file-upload" accept="image/*" required>
+        </div>
+        <button type="submit" class="btn btn-primary">Continue</button>
+    </form>
+</div>
+
+<style>
+  .container {
+    max-width: 800px;
+  }
+
+  h1 {
+    font-size: 2.5rem;
+    font-weight: bold;
+  }
+
+  .form {
+    background-color: #f8f9fa;
+  }
+
+  .form input, .form button {
+    font-size: 1.1rem;
+  }
+
+  .btn-primary {
+    padding: 0.7rem 1.5rem;
+    font-size: 1.1rem;
+  }
+</style>
+{% endblock %}

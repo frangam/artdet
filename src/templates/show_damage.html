@@ -14,7 +14,7 @@
   <div class="col-md-5">
     <h3>Detected Damages</h3>
     <img src="{{ url_for('static', filename='./images/detection.jpg')}}" width="400" height="auto"/>
-    <form action="{{ url_for('DownloadImages') }}" method="GET">
+    <form action="{{ url_for('download_images') }}" method="GET">
     <input type="submit" value="Download Image"/>
     </form>
   </div>

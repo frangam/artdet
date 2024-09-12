@@ -1,20 +1,92 @@
 {% extends "layout.html" %}
 {% block body %}
-<div class="container text-center">
-  <article class="main row"></article>
-    <p class="border text-center">Currently, there is great interest in the digital preservation of Cultural Heritage. Thanks to the development of information and communication technologies, their adoption in fields such as Restoration and Conservation of Cultural Assets is helping to preserve heritage. In this sense, in the earliest phase of restoration and intervention projects, the generation of a damage map (also known as a pathology map) is crucial. This map allows us to assess the current state of conservation of an artwork in order to plan its subsequent intervention.
-    </p>
-    <p>
-      This application will be used for the detection of damages in easel paintings, where the user will input an image of a damaged painting and the damages will be detected.
-    </p>
-  </article>
-  <img src="{{ url_for('static', filename='./images/introduction.jpg')}}" width = "700" height ="400"/>
-  <div class="row">
-    <button type="button" class="btn btn-primary "><a href="{{ url_for('UploadImage') }}">Continue</a></button>
+<div class="container">
+  <!-- Sección de cabecera con el botón de subida de imágenes -->
+  <header class="d-flex justify-content-between align-items-center py-3 mb-4">
+    <h1 class="text-primary">Detect Damage in Easel Paintings</h1>
+    <form method="POST" action="{{ url_for('detection') }}" enctype="multipart/form-data">
+      <input type="file" id="file-upload" name="file" class="d-none" accept="image/*" onchange="this.form.submit()">
+      <label for="file-upload" class="btn btn-outline-primary">Upload Easel Painting</label>
+    </form>
+  </header>
+
+  <!-- Zona de Drag & Drop en el centro -->
+  <div class="drag-area" onclick="document.getElementById('file-upload').click();" ondrop="handleDrop(event)" ondragover="event.preventDefault();">
+    <div class="drag-text">
+      <h2>Drag & Drop Easel Painting</h2>
+      <p>or click here to upload</p>
+    </div>
   </div>
+
+  <!-- Estilo minimalista y moderno -->
 </div>
 
 <style>
- 
+  /* Tipografía */
+  @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap');
+  body {
+    font-family: 'Montserrat', sans-serif;
+    background-color: #f4f4f9;
+    color: #333;
+  }
+
+  h1 {
+    font-weight: 700;
+    font-size: 2rem;
+  }
+
+  /* Botón de subir imagen */
+  .btn-outline-primary {
+    border-color: #3498db;
+    color: #3498db;
+    transition: background-color 0.3s ease;
+  }
+
+  .btn-outline-primary:hover {
+    background-color: #3498db;
+    color: white;
+  }
+
+  /* Área de arrastrar y soltar */
+  .drag-area {
+    border: 2px dashed #3498db;
+    border-radius: 10px;
+    padding: 50px;
+    text-align: center;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+
+  .drag-area:hover {
+    background-color: #ecf5ff;
+  }
+
+  .drag-text h2 {
+    font-size: 1.8rem;
+    color: #3498db;
+  }
+
+  .drag-text p {
+    font-size: 1rem;
+    color: #7f8c8d;
+  }
+
+  .container {
+    max-width: 600px;
+    margin: 0 auto;
+    padding-top: 100px;
+  }
 </style>
+
+<script>
+  function handleDrop(event) {
+    event.preventDefault();
+    const files = event.dataTransfer.files;
+    if (files.length) {
+      const fileInput = document.getElementById('file-upload');
+      fileInput.files = files;
+      fileInput.form.submit();
+    }
+  }
+</script>
 {% endblock %}

@@ -8,11 +8,11 @@
     <img src="{{ url_for('static', filename='./images/test.jpg')}}" width="400" height="auto"/>
 
     <p>
-        <form action="{{ url_for('ShowDamage') }}" method="GET">
+        <form action="{{ url_for('show_damage') }}" method="GET">
             <input type="hidden" name="name" value="{{name_file}}" />
             <input type="submit" class="btn btn-sm btn-primary" value="Show damages" />
         </form>
-        <button type="button" class="btn btn-sm btn-primary"><a href="{{ url_for('UploadImage') }}">Go back</a></button>  
+        <button type="button" class="btn btn-sm btn-primary"><a href="{{ url_for('index') }}">Go back</a></button>  
     </p>
 </div>
 {% endblock %}
