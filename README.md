@@ -54,21 +54,18 @@ This is the official implementation code of the paper <b>"ArtDet: Machine Learni
    ```
 
 
-### 3. **Clone Mask-RCNN updated version:**
+### 3. **Install Mask-RCNN updated version to work with Tensorflow 2:**
 
    ```shell
    git clone https://github.com/alsombra/Mask_RCNN-TF2.git
-   ```
-
-### 4. **Install dependencies of Mask-RCNN:**
-
-   ```shell
    cd Mask_RCNN-TF2
    pip install -r requirements.txt
    python setup.py install
+
    ```
 
-### 5. **Install our custom dependencies:**
+
+### 4. **Install our custom dependencies:**
 
    ```shell
    cd ..
