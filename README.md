@@ -9,14 +9,71 @@ This is the official implementation code of the paper <b>"ArtDet: Machine Learni
 
 
 
+
 ## Installation
 
-1. Clone the repository:
+### 0. **Set up Python 3.12 and create the environment**
+
+1. **Install Python 3.12** (if not already installed). On macOS or Linux:
+
+   ```shell
+   sudo apt update
+   sudo apt install -y python3.12 python3.12-venv python3.12-dev
+   ```
+
+   For macOS (if using Homebrew):
+
+   ```shell
+   brew install python@3.12
+   ```
+
+2. **Create a virtual environment** using Python 3.12:
+
+   ```shell
+   python3.12 -m venv venv
+   ```
+
+3. **Activate the environment**:
+
+   On macOS/Linux:
+
+   ```shell
+   source venv/bin/activate
+   ```
+
+   On Windows:
+
+   ```shell
+   .\venv\Scripts\activate
+   ```
+
+### 1. **Clone the repository:**
 
    ```shell
    git clone https://github.com/frangam/artdet.git
+   cd artdet
    ```
 
+### 2. **Clone Mask-RCNN updated version:**
+
+   ```shell
+   git clone https://github.com/alsombra/Mask_RCNN-TF2.git
+   ```
+
+### 3. **Install dependencies of Mask-RCNN:**
+
+   ```shell
+   cd Mask_RCNN-TF2
+   pip install -r requirements.txt
+   python setup.py install
+   ```
+
+### 4. **Install our custom dependencies:**
+
+   ```shell
+   cd ..
+   pip install -r requirements.txt
+   ```
 
 
 ## <a name="Dataset"></a>Dataset
