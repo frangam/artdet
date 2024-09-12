@@ -166,5 +166,6 @@ venv/
 Mask_RCNN-TF2/
 model/
 data/
+upload/
 logs/
 *.jpg
