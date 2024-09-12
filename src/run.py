@@ -52,7 +52,7 @@ def detection():
 
     # Usar secure_filename para evitar problemas de ruta
     filename = secure_filename(f.filename)
-    images_folder = 'upload/'
+    images_folder = 'src/static/upload/'
     upload_path = os.path.join(images_folder, filename)
 
     # Verificar si el directorio de imágenes existe, si no, crearlo
@@ -80,13 +80,12 @@ def detection():
     
 
 
-@app.route('/home/artworks/damage')
+@app.route('/show-damages')
 def show_damage():
     K.clear_session()
     name = request.args.get('name')
 
-
-    images_folder = 'upload/'
+    images_folder = 'src/static/upload/'
     box_path = images_folder + name
 
     # Once we have the image, we detect the damages
@@ -102,9 +101,9 @@ def show_damage():
     return render_template("show_damage.html", name_file=name, size=image_size, undamaged_zone=undamaged_zone,
                            damaged_zone=damaged_zone, percentage=percentage)
 
-@app.route('/home/artworks/damage/download')
+@app.route('/download')
 def download_images():
-    pathfile = 'upload/'
+    pathfile = 'src/static/upload/'
     path = 'detection.jpg'
     return send_from_directory(pathfile, path, as_attachment=True)
 

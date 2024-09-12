@@ -1,7 +1,8 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <title>Automatic Detection of Damages in Easel Paintings</title>
+  <title>ArtDet: Machine Learning Software for Automated Detection of Art Deterioration in Easel Paintings
+  </title>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
@@ -10,70 +11,64 @@
 
   <!-- Optional theme -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+
+  <style>
+    .title {
+      background-color: #a2d4ef;
+      padding: 20px;
+      margin-bottom: 20px;
+    }
+
+    body {
+      background-color: #f2f2f2;
+      position: relative;
+      padding-bottom: 3em;
+      min-height: 100vh;
+    }
+
+    footer {
+      position: relative;
+      bottom: 0;
+      width: 100%;
+      background-color: #343a40;
+      color: white;
+      padding: 20px 0;
+      margin-top: 20px;
+    }
+
+    .container p {
+      margin: 0;
+    }
+
+    .footer-text {
+      background-color: rgba(0, 0, 0, 0.2);
+      padding: 10px;
+    }
+
+    .jumbotron {
+      background-color: #5cd3fa;
+    }
+  </style>
 </head>
 <body>
   <header>
     <h1 class="title text-center">ArtDet: Machine Learning Software for Automated Detection of Art Deterioration in Easel Paintings</h1>
   </header>
-  {% block body %}
-  {% endblock %}
 
-  <footer class="bg-light text-center text-white">
-    <!-- Grid container -->
-    <div class="container p-4 pb-0">
-      <!-- Section: Social media -->
+  <div class="container">
+    {% block body %}
+    {% endblock %}
+  </div>
+
+  <footer class="text-center">
+    <div class="container">
       <section class="mb-4">
-      <!-- Mail -->
-      <a
-        class="btn text-white btn-floating m-1"
-        style="background-color: #dd4b39;"
-        href="jesus.cortes.alcaraz@gmail.com"
-        role="button"
-        ><i class="fab fa-google"></i
-      ></a>
-    
-      <!-- Linkedin -->
-      <a
-        class="btn text-white btn-floating m-1"
-        style="background-color: #e6e6e6;"
-        href="#!"
-        role="button"
-        ><i class="fab fa-linkedin-in"></i
-      ></a>
+        <p>For inquiries, please contact us through the official channels.</p>
       </section>
-    <!-- Section: Social media -->
     </div>
-    <!-- Grid container -->
-
-    <!-- Copyright -->
-    <div class="text-center p-3" style="background-color: rgba(0, 0, 0, 0.2);">
-    © 2024: Francisco M. Garcia-Moreno, Jesús Cortés Alcaraz, Jose Manuel del Castillo de la Fuente, Luis Rodrigo Rodríguez-Simón, María Visitación Hurtado-Torres
+    <div class="footer-text text-center">
+      © 2024: Francisco M. Garcia-Moreno, Jesús Cortés Alcaraz, Jose Manuel del Castillo de la Fuente, Luis Rodrigo Rodríguez-Simón, María Visitación Hurtado-Torres
     </div>
-    <!-- Copyright -->
   </footer>
 </body>
-
-
-<style>
-  .title{
-  background-color: #a2d4ef;
-  }
-
-  body{
-  background-color: #f2f2f2;
-  position: relative;
-  padding-bottom: 3em;
-  min-height:100vh;
-  }
-
-  footer{
-  position: absolute;
-  bottom: 0;
-  width:100%;
-  }
-
-  .jumbotron{
-  background-color: #5cd3fa;
-  }
-</style>
 </html>

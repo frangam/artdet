@@ -1,18 +1,109 @@
 {% extends "layout.html" %}
 {% block body %}
-<section class="jumbotron text-center">
-    <h2>Frame: {{name_file}}</h2>
-</section>
+<div class="container text-center mt-5">
+  <!-- Título de la sección -->
+  <h1 class="text-primary mb-4">Frame: {{name_file}}</h1>
 
-<div class="container text-center">
-    <img src="{{ url_for('static', filename='./images/test.jpg')}}" width="400" height="auto"/>
+  <!-- Mostrar imagen cargada -->
+  <div class="image-preview mb-4">
+    <img src="{{ url_for('static', filename='upload/test.jpg') }}" class="img-fluid" alt="Uploaded Image">
+  </div>
 
-    <p>
-        <form action="{{ url_for('show_damage') }}" method="GET">
-            <input type="hidden" name="name" value="{{name_file}}" />
-            <input type="submit" class="btn btn-sm btn-primary" value="Show damages" />
-        </form>
-        <button type="button" class="btn btn-sm btn-primary"><a href="{{ url_for('index') }}">Go back</a></button>  
-    </p>
+  <!-- Botones de acciones -->
+  <div class="actions">
+    <form action="{{ url_for('show_damage') }}" method="GET" class="d-inline" onsubmit="showOverlay()">
+      <input type="hidden" name="name" value="{{name_file}}" />
+      <button type="submit" class="btn btn-primary btn-lg">Show Damages</button>
+    </form>
+    
+    <a href="{{ url_for('index') }}" class="btn btn-secondary btn-lg ml-3">Go Back</a>
+  </div>
 </div>
+
+<!-- Overlay de "Detecting damages..." -->
+<div id="loading-overlay" class="loading-overlay">
+  <div class="loading-content">
+    <h2>Detecting damages...</h2>
+    <div class="spinner"></div>
+  </div>
+</div>
+
+<style>
+  /* Overlay completo */
+  .loading-overlay {
+    display: none; /* Se ocultará hasta que se ejecute el script */
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    text-align: center;
+  }
+
+  .loading-content {
+    position: relative;
+    top: 50%;
+    transform: translateY(-50%);
+    color: white;
+  }
+
+  .spinner {
+    border: 8px solid #f3f3f3;
+    border-top: 8px solid #3498db;
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    animation: spin 1s linear infinite;
+    margin: 20px auto;
+  }
+
+  @keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+  }
+
+  /* Tipografía */
+  @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap');
+  body {
+    font-family: 'Montserrat', sans-serif;
+    background-color: #f4f4f9;
+    color: #333;
+  }
+
+  h1 {
+    font-weight: 700;
+    font-size: 2rem;
+  }
+
+  /* Estilo de la imagen */
+  .image-preview img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 10px;
+    border: 2px solid #3498db;
+  }
+
+  .actions {
+    margin-top: 20px;
+  }
+
+  .btn-lg {
+    font-size: 1.2rem;
+    padding: 0.8rem 1.5rem;
+  }
+
+  .ml-3 {
+    margin-left: 10px;
+  }
+
+</style>
+
+<script>
+  function showOverlay() {
+    // Mostrar el overlay cuando se haga clic en el botón "Show Damages"
+    document.getElementById('loading-overlay').style.display = 'block';
+  }
+</script>
 {% endblock %}

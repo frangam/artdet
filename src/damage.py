@@ -73,6 +73,14 @@ class CustomConfig(Config):
     # Skip detections with < 90% confidence
     DETECTION_MIN_CONFIDENCE = 0.9
 
+    # Image resizing settings
+    IMAGE_MIN_DIM = 800
+    IMAGE_MAX_DIM = 1024  # Or a higher value depending on your dataset
+    IMAGE_RESIZE_MODE = "square"  # Resize the image without changing the aspect ratio
+
+    # Backbone architecture
+    BACKBONE = "resnet101"
+
 
 ############################################################
 #  Dataset

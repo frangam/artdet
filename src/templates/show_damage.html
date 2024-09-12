@@ -1,37 +1,138 @@
 {% extends "layout.html" %}
 {% block body %}
-<section class="jumbotron text-center">
-  <h2>Artwork: {{name_file}}</h2>
-</section>
+<div class="container text-center mt-5">
+  <!-- Título de la sección -->
+  <h1 class="text-primary mb-4">Artwork: {{name_file}}</h1>
 
-<div class="container">
-  <div class="main row">
-  <div class="col-md-5">
-    <h3>Original Image</h3>
-    <img src="{{ url_for('static', filename='./images/test.jpg')}}" width="400" height="auto"/>
+  <div class="row justify-content-center">
+    <!-- Imagen original -->
+    <div class="col-md-5 text-center mb-4">
+      <h3>Original Image</h3>
+      <img src="{{ url_for('static', filename='./upload/test.jpg') }}" class="img-fluid rounded shadow" alt="Original Image">
+    </div>
+
+    <!-- Imagen con daños detectados -->
+    <div class="col-md-5 text-center mb-4">
+      <h3>Detected Damages</h3>
+      <img src="{{ url_for('static', filename='./upload/detection.jpg') }}" class="img-fluid rounded shadow" alt="Detected Damages">
+      <form action="{{ url_for('download_images') }}" method="GET" class="mt-3">
+        <button type="submit" class="btn btn-success btn-lg">Download Image</button>
+      </form>
+    </div>
+
+    <!-- Características de los daños detectados -->
+    <div class="col-md-2 text-left">
+      <h3>Characteristics</h3>
+      <p>Characteristics regarding the detected damages:</p>
+      <ul class="list-group">
+        <li class="list-group-item">Canvas area: {{tamaño}} pixels<sup>2</sup></li>
+        <li class="list-group-item">Undamaged area: {{zona_no_dañada}} pixels<sup>2</sup></li>
+        <li class="list-group-item">Damaged area: {{zona_dañada}} pixels<sup>2</sup></li>
+        <li class="list-group-item">Damage percentage: {{porcentaje}}%</li>
+      </ul>
+    </div>
   </div>
 
-  <div class="col-md-5">
-    <h3>Detected Damages</h3>
-    <img src="{{ url_for('static', filename='./images/detection.jpg')}}" width="400" height="auto"/>
-    <form action="{{ url_for('download_images') }}" method="GET">
-    <input type="submit" value="Download Image"/>
-    </form>
+  <!-- Botón para subir nueva imagen -->
+  <div class="mt-5">
+    <a href="{{ url_for('UploadImage') }}" class="btn btn-primary btn-lg">Upload a New Image</a>
   </div>
-
-  <div class="col-md-2">
-    <h3>Characteristics</h3>
-    <p>Characteristics regarding the detected damages</p>
-    <ul>
-    <li>Canvas area: {{tamaño}} pixels<sup>2</sup></li>
-    <li>Undamaged area: {{zona_no_dañada}} pixels<sup>2</sup></li>
-    <li>Damaged area: {{zona_dañada}} pixels<sup>2</sup></li>
-    <li>Damage percentage: {{porcentaje}}%</li>
-    </ul>
-  </div>
-
-  </div>
-  <a href="{{ url_for('UploadImage') }}">Upload a new image</a>
 </div>
 
+<style>
+  /* Tipografía general */
+  @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap');
+  body {
+    font-family: 'Montserrat', sans-serif;
+    background-color: #f4f4f9;
+    color: #333;
+  }
+
+  h1, h3 {
+    font-weight: 700;
+    color: #3498db;
+  }
+
+  h1 {
+    font-size: 2.5rem;
+  }
+
+  h3 {
+    font-size: 1.8rem;
+    margin-bottom: 15px;
+  }
+
+  /* Imagenes */
+  .img-fluid {
+    max-width: 100%;
+    height: auto;
+  }
+
+  .rounded {
+    border-radius: 10px;
+    border: 2px solid #3498db;
+  }
+
+  /* Botones */
+  .btn-lg {
+    font-size: 1.2rem;
+    padding: 0.8rem 1.5rem;
+  }
+
+  .btn-primary {
+    background-color: #3498db;
+    border-color: #3498db;
+  }
+
+  .btn-primary:hover {
+    background-color: #217dbb;
+    border-color: #217dbb;
+  }
+
+  .btn-success {
+    background-color: #28a745;
+    border-color: #28a745;
+  }
+
+  .btn-success:hover {
+    background-color: #218838;
+    border-color: #1e7e34;
+  }
+
+  /* Características */
+  .list-group-item {
+    font-size: 1rem;
+    background-color: #f8f9fa;
+    border-radius: 0.5rem;
+  }
+
+  .list-group {
+    padding-top: 15px;
+  }
+
+  /* Alineación general */
+  .container {
+    max-width: 900px;
+  }
+
+  .text-center {
+    text-align: center;
+  }
+
+  .mb-4 {
+    margin-bottom: 1.5rem;
+  }
+
+  .mt-3 {
+    margin-top: 1rem;
+  }
+
+  .mt-5 {
+    margin-top: 3rem;
+  }
+
+  .shadow {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+</style>
 {% endblock %}
