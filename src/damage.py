@@ -26,7 +26,7 @@ import datetime
 import numpy as np
 import skimage.draw
 import cv2
-from Mask_RCNN.mrcnn.visualize import display_instances
+from mrcnn.visualize import display_instances
 import matplotlib.pyplot as plt
 
 # Root directory of the project
@@ -36,8 +36,8 @@ ROOT_COCO = os.path.abspath("/content/Mask_RCNN/")
 ROOT_CONTENT = os.path.abspath("/content/")
 # Import Mask RCNN
 sys.path.append(ROOT_DIR)  # To find local version of the library
-from Mask_RCNN.mrcnn.config import Config
-from Mask_RCNN.mrcnn import model as modellib, utils
+from mrcnn.config import Config
+from mrcnn import model as modellib, utils
 
 # Path to trained weights file
 #COCO_WEIGHTS_PATH = os.path.join(ROOT_COCO, "mask_rcnn_coco.h5")
