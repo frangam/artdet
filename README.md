@@ -64,12 +64,16 @@ This is the official implementation code of the paper <b>"ArtDet: Machine Learni
 
    ```
 
-
 ### 4. **Install our custom dependencies:**
 
    ```shell
    cd ..
    pip install -r requirements.txt
+   ```
+### 5. **Run the web app:**
+
+   ```shell
+   python src/run.py
    ```
 
 

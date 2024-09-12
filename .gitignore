@@ -167,3 +167,4 @@ Mask_RCNN-TF2/
 model/
 data/
 logs/
+*.jpg
