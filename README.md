@@ -3,7 +3,7 @@
 
 [![License: GNU 3](https://img.shields.io/badge/License-GNU%203-blue.svg)](https://www.gnu.org/licenses/gpl-3.0) <img src="https://img.shields.io/github/release/frangam/artdet.svg"/> [![GitHub all releases](https://img.shields.io/github/downloads/frangam/artdet/total)](https://github.com/frangam/artdet/releases/download/1.0/artdet-v1.0.zip)
 
-This is the official implementation code of the paper <b>"ArtDet: Machine Learning Software for Automated Detection of Art Deterioration in Easel Paintings"</b> ([`Paper`(https://doi.org/10.1016/j.softx.2024.101917))
+This is the official implementation code of the paper <b>"ArtDet: Machine Learning Software for Automated Detection of Art Deterioration in Easel Paintings"</b> ([`Paper`](https://doi.org/10.1016/j.softx.2024.101917))
 
 [[`Paper`](https://doi.org/10.1016/j.softx.2024.101917)] [[`Dataset`](https://doi.org/10.5281/zenodo.8429815)] [[`BibTeX`](#citation)]
 
