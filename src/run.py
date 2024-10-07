@@ -106,9 +106,15 @@ def download_images():
 
 
 if __name__ == "__main__":
-    # Inicia el túnel de ngrok y obtén la URL pública
-    public_url = ngrok.connect(5000)
-    print(f" * ngrok tunnel: {public_url}")
+    port = 5000  
 
-    # Ejecuta la app Flask
-    app.run(port=5000)
+    if os.getenv('USE_NGROK') == 'true':
+        public_url = ngrok.connect(port)
+        print(f" * ngrok tunnel: {public_url}")
+    else:
+        print(" * Running on localhost")
+
+    app.run(port=port)
+
+
+
