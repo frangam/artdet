@@ -85,14 +85,15 @@ def show_damage():
     box_path = images_folder + name
 
     # # Once we have the image, we detect the damages
-    # zones = utils.saveImage_GetFeatures(name)
+    zones = utils.saveImage_GetFeatures(name)
+    print(zones)
 
-    image_size = None#zones[0]
-    undamaged_zone = None#zones[1]
-    damaged_zone = None#zones[2]
-    percentage = None#zones[3]
+    image_size = zones[0]
+    undamaged_zone = zones[1]
+    damaged_zone = zones[2]
+    percentage =zones[3]
 
-    # remove(box_path)
+    #remove(box_path)
 
     return render_template("show_damage.html", name_file=name, size=image_size, undamaged_zone=undamaged_zone,
                            damaged_zone=damaged_zone, percentage=percentage)
