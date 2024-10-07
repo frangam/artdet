@@ -387,91 +387,175 @@ def SumAreas(poligonos):
 
 
 
+# def saveImage_GetFeatures(nombre_img):
+#     # Configuración para la inferencia
+#     config = damage.CustomConfig()
+
+#     # Cargar el conjunto de datos para obtener las clases
+#     dataset_train = damage.CustomDataset()
+#     dataset_train.load_custom('data', "train")  # Ajusta la ruta al dataset
+#     dataset_train.prepare()
+#     print("Images train: {}\nClasses: {}".format(len(dataset_train.image_ids), dataset_train.class_names))
+
+#     class InferenceConfig(config.__class__):
+#         GPU_COUNT = 1
+#         IMAGES_PER_GPU = 1
+#         IMAGE_MIN_DIM = config.IMAGE_MIN_DIM
+#         IMAGE_MAX_DIM = config.IMAGE_MAX_DIM
+
+#     config = InferenceConfig()
+#     config.display()
+
+#     # Ruta de la carpeta de imágenes
+#     carpeta_imagenes = "src/static/upload"
+#     image_path = os.path.join(carpeta_imagenes, nombre_img)
+    
+#     # Leer la imagen
+#     img = skimage.io.imread(image_path)
+
+#     # Redimensionar la imagen para que coincida con las dimensiones esperadas por el modelo
+#     img_resized = resize(img, (config.IMAGE_MAX_DIM, config.IMAGE_MAX_DIM), preserve_range=True)
+
+#     img_arr = np.array(img_resized, dtype=np.float32)
+#     img_arr = np.expand_dims(img_arr, axis=0)  # Añadir dimensión extra para el lote
+
+#     # Crear el meta-dato de la imagen (con la forma esperada por el modelo)
+#     image_meta = np.array([[1024, 1024, 3] + [0] * 11])  # Ajusta según sea necesario
+
+#     # Ajustar el tamaño de las ROIs a la cantidad que el modelo espera
+#     rois = np.zeros((1, config.POST_NMS_ROIS_INFERENCE, 4), dtype=np.float32)
+
+#     # Cargar el modelo guardado en formato SavedModel
+#     print("Loading model from SavedModel format...")
+#     model = tf.saved_model.load('model/model-maskrcnn-tf')
+
+#     # Ensure all variables are initialized
+#     print("Initializing variables...")
+#     infer = model.signatures["serving_default"]
+
+#     # Preparar la entrada para el modelo
+#     input_tensor = tf.convert_to_tensor(img_arr, dtype=tf.float32)
+
+#     # Try initializing missing variables (fixing uninitialized variables)
+#     try:
+#         infer(inputs=input_tensor, inputs_1=image_meta, inputs_2=rois)
+#     except tf.errors.FailedPreconditionError as e:
+#         print(f"Warning: {e}. Attempting to initialize missing variables.")
+#         # Initialize uninitialized variables
+#         if hasattr(model, 'variables'):
+#             for variable in model.variables:
+#                 if not variable.numpy().any():
+#                     print(f"Initializing variable: {variable.name}")
+#                     tf.keras.backend.initialize_variables([variable])
+#         # Retry inference after initializing variables
+#         results = infer(inputs=input_tensor, inputs_1=image_meta, inputs_2=rois)
+#     else:
+#         results = infer(inputs=input_tensor, inputs_1=image_meta, inputs_2=rois)
+
+#     # Evaluar los tensores si es necesario
+#     with tf.compat.v1.Session() as sess:
+#         r = {
+#             'rois': sess.run(results['output_0']),
+#             'masks': sess.run(results['output_3']),
+#             'class_ids': sess.run(results['output_1']),
+#             'scores': sess.run(results['output_4'])
+#         }
+
+#     # Visualizar las instancias detectadas
+#     poligonos = display_instances(img_resized, r['rois'], r['masks'], r['class_ids'], dataset_train.class_names)
+    
+#     # Calcular áreas de daño
+#     suma_areas = SumAreas(poligonos)
+
+#     # Calcular las zonas que presenta el cuadro junto con el porcentaje de daño que tiene
+#     zonas = []
+#     tamaño = img_resized.shape[0] * img_resized.shape[1]
+#     zona_no_dañada = tamaño - suma_areas
+#     zona_dañada = tamaño - zona_no_dañada
+#     porcentaje = round((zona_dañada * 100) / tamaño, 2)
+
+#     zonas.append(tamaño)
+#     zonas.append(zona_no_dañada)
+#     zonas.append(zona_dañada)
+#     zonas.append(porcentaje)
+
+#     return zonas
+
+
+
 def saveImage_GetFeatures(nombre_img):
-    # Configuración para la inferencia
     config = damage.CustomConfig()
-
-    # Cargar el conjunto de datos para obtener las clases
-    dataset_train = damage.CustomDataset()
-    dataset_train.load_custom('data', "train")  # Ajusta la ruta al dataset
-    dataset_train.prepare()
-    print("Images train: {}\nClasses: {}".format(len(dataset_train.image_ids), dataset_train.class_names))
-
     class InferenceConfig(config.__class__):
+        # Run detection on one image at a time
+        # Ejecuta la detección en una imagen a la vez
         GPU_COUNT = 1
         IMAGES_PER_GPU = 1
-        IMAGE_MIN_DIM = config.IMAGE_MIN_DIM
-        IMAGE_MAX_DIM = config.IMAGE_MAX_DIM
 
     config = InferenceConfig()
     config.display()
 
+    # Cargar el conjunto de datos para el entrenamiento
+    dataset_train = damage.CustomDataset()
+    dataset_train.load_custom("data", "train")
+    dataset_train.prepare()
+    print("Images train: {}\nClasses: {}".format(len(dataset_train.image_ids), dataset_train.class_names))
+
+    # Cargar el modelo SavedModel
+    print("Cargando el modelo desde SavedModel...")
+    loaded_model = tf.saved_model.load('model/model-maskrcnn-tf')
+    infer = loaded_model.signatures["serving_default"]
+
     # Ruta de la carpeta de imágenes
     carpeta_imagenes = "src/static/upload"
     image_path = os.path.join(carpeta_imagenes, nombre_img)
-    
-    # Leer la imagen
+
+    # Leer y preparar la imagen
     img = skimage.io.imread(image_path)
+    if img.ndim != 3:
+        # Asegurar que la imagen tenga 3 canales
+        img = skimage.color.gray2rgb(img)
+    img_rgb = img[..., :3].astype(np.float32)
 
-    # Redimensionar la imagen para que coincida con las dimensiones esperadas por el modelo
-    img_resized = resize(img, (config.IMAGE_MAX_DIM, config.IMAGE_MAX_DIM), preserve_range=True)
+    # Redimensionar la imagen según la configuración
+    img_resized = resize(img_rgb, (config.IMAGE_MAX_DIM, config.IMAGE_MAX_DIM), preserve_range=True)
+    img_preprocessed = img_resized - config.MEAN_PIXEL  # Normalizar con el MEAN_PIXEL
 
-    img_arr = np.array(img_resized, dtype=np.float32)
-    img_arr = np.expand_dims(img_arr, axis=0)  # Añadir dimensión extra para el lote
+    img_arr = np.expand_dims(img_preprocessed, axis=0)  # Añadir dimensión para el lote
 
-    # Crear el meta-dato de la imagen (con la forma esperada por el modelo)
-    image_meta = np.array([[1024, 1024, 3] + [0] * 11])  # Ajusta según sea necesario
-
-    # Ajustar el tamaño de las ROIs a la cantidad que el modelo espera
-    rois = np.zeros((1, config.POST_NMS_ROIS_INFERENCE, 4), dtype=np.float32)
-
-    # Cargar el modelo guardado en formato SavedModel
-    print("Loading model from SavedModel format...")
-    model = tf.saved_model.load('model/model-maskrcnn-tf')
-
-    # Ensure all variables are initialized
-    print("Initializing variables...")
-    infer = model.signatures["serving_default"]
-
-    # Preparar la entrada para el modelo
+    # Convertir a tensor
     input_tensor = tf.convert_to_tensor(img_arr, dtype=tf.float32)
 
-    # Try initializing missing variables (fixing uninitialized variables)
-    try:
-        infer(inputs=input_tensor, inputs_1=image_meta, inputs_2=rois)
-    except tf.errors.FailedPreconditionError as e:
-        print(f"Warning: {e}. Attempting to initialize missing variables.")
-        # Initialize uninitialized variables
-        if hasattr(model, 'variables'):
-            for variable in model.variables:
-                if not variable.numpy().any():
-                    print(f"Initializing variable: {variable.name}")
-                    tf.keras.backend.initialize_variables([variable])
-        # Retry inference after initializing variables
-        results = infer(inputs=input_tensor, inputs_1=image_meta, inputs_2=rois)
-    else:
-        results = infer(inputs=input_tensor, inputs_1=image_meta, inputs_2=rois)
+    # Ejecutar la inferencia
+    print("Ejecutando la inferencia...")
+    outputs = infer(input_tensor)
 
-    # Evaluar los tensores si es necesario
-    with tf.compat.v1.Session() as sess:
-        r = {
-            'rois': sess.run(results['output_0']),
-            'masks': sess.run(results['output_3']),
-            'class_ids': sess.run(results['output_1']),
-            'scores': sess.run(results['output_4'])
-        }
+    # Procesar las predicciones
+    # Inspeccionar las claves disponibles en las salidas
+    print("Claves de salida del modelo:", outputs.keys())
+
+    # Asumiendo que las salidas incluyen 'rois', 'class_ids', 'scores', 'masks'
+    # Reemplaza estas claves según las salidas reales de tu SavedModel
+    try:
+        rois = outputs['rois'].numpy()[0]  # Shape: [N, 4]
+        class_ids = outputs['class_ids'].numpy()[0]  # Shape: [N]
+        scores = outputs['scores'].numpy()[0]  # Shape: [N]
+        masks = outputs['masks'].numpy()  # Shape: [N, height, width, 1]
+        masks = np.squeeze(masks, axis=-1)  # Shape: [N, height, width]
+    except KeyError as e:
+        print(f"Error: La clave {e} no se encuentra en las salidas del modelo.")
+        return None
 
     # Visualizar las instancias detectadas
-    poligonos = display_instances(img_resized, r['rois'], r['masks'], r['class_ids'], dataset_train.class_names)
+    poligonos = display_instances(img_resized, rois, masks, class_ids, dataset_train.class_names)
     
     # Calcular áreas de daño
     suma_areas = SumAreas(poligonos)
 
     # Calcular las zonas que presenta el cuadro junto con el porcentaje de daño que tiene
     zonas = []
-    tamaño = img_resized.shape[0] * img_resized.shape[1]
+    tamaño = img.shape[0] * img.shape[1]
     zona_no_dañada = tamaño - suma_areas
-    zona_dañada = tamaño - zona_no_dañada
+    zona_dañada = suma_areas  # Corregido para reflejar la suma de áreas dañadas
     porcentaje = round((zona_dañada * 100) / tamaño, 2)
 
     zonas.append(tamaño)

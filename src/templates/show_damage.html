@@ -6,21 +6,23 @@
 
   <div class="row justify-content-center">
     <!-- Imagen original -->
-    <div class="col-md-5 text-center mb-4">
+    <div class="col-md-6 text-center mb-4 mx-auto">
       <h3>Original Image</h3>
       <img src="{{ url_for('static', filename='./upload/test.jpg') }}" class="img-fluid rounded shadow" alt="Original Image">
     </div>
 
     <!-- Imagen con daños detectados -->
-    <div class="col-md-5 text-center mb-4">
+    <div class="col-md-6 text-center mb-4 mx-auto">
       <h3>Detected Damages</h3>
-      <img src="{{ url_for('static', filename='./upload/detection.jpg') }}" class="img-fluid rounded shadow" alt="Detected Damages">
+      <img src="{{ url_for('static', filename='upload/detection.png') }}" class="img-fluid rounded shadow" alt="Detected Damages">
       <form action="{{ url_for('download_images') }}" method="GET" class="mt-3">
         <button type="submit" class="btn btn-success btn-lg">Download Image</button>
       </form>
     </div>
 
-    <!-- Características de los daños detectados -->
+
+
+    <!-- Características de los daños detectados (descomentar si es necesario)
     <div class="col-md-2 text-left">
       <h3>Characteristics</h3>
       <p>Characteristics regarding the detected damages:</p>
@@ -31,11 +33,15 @@
         <li class="list-group-item">Damage percentage: {{porcentaje}}%</li>
       </ul>
     </div>
+    -->
   </div>
+
+  <!-- Línea separadora -->
+  <hr class="my-5">
 
   <!-- Botón para subir nueva imagen -->
   <div class="mt-5">
-    <a href="{{ url_for('UploadImage') }}" class="btn btn-primary btn-lg">Upload a New Image</a>
+    <a href="{{ url_for('index') }}" class="btn btn-primary btn-lg">Upload a New Image</a>
   </div>
 </div>
 
@@ -62,7 +68,7 @@
     margin-bottom: 15px;
   }
 
-  /* Imagenes */
+  /* Imágenes */
   .img-fluid {
     max-width: 100%;
     height: auto;
@@ -131,8 +137,17 @@
     margin-top: 3rem;
   }
 
+  .my-5 {
+    margin-top: 3rem;
+    margin-bottom: 3rem;
+  }
+
   .shadow {
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+
+  hr {
+    border-top: 2px solid #3498db;
   }
 </style>
 {% endblock %}
